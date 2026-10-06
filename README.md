@@ -17,6 +17,12 @@
 - imgBB image upload, dark mode (persisted), responsive layout, custom 404 and error boundary
 - Reloading any private route keeps you logged in (auth state resolves before redirects)
 
+## AI features
+- **Smart listing assistant** on the artwork form: title, tags, category, description and a price range with the comparable artworks used. Fields are labelled "AI suggested" until the artist confirms or edits them.
+- **AI search** on Browse: describe what you want in words or search by image; results show a match percentage.
+- **"You might also like"** on every artwork page.
+- **Admin > AI duplicates**: review uploads flagged as similar to existing work, and index artworks for AI search.
+
 ## Setup
 ```bash
 npm install
