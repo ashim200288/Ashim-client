@@ -7,6 +7,7 @@ import { api, money, date } from "@/lib/api";
 import { useAuth } from "@/components/AuthProvider";
 import { Sk } from "@/components/ui";
 import Comments from "@/components/Comments";
+import Similar from "@/components/Similar";
 
 export default function Details() {
   const { id } = useParams();
@@ -59,6 +60,7 @@ export default function Details() {
           <p className="mt-2 text-muted">by <Link href={`/artworks?artist=${art.artist?._id}`} className="font-semibold text-ink underline decoration-brand underline-offset-4">{art.artist?.name}</Link></p>
           <p className="mt-6 text-4xl font-display font-extrabold">{money(art.price)}</p>
           <p className="mt-6 leading-relaxed whitespace-pre-line">{art.description}</p>
+          {art.tags?.length > 0 && <div className="mt-4 flex flex-wrap gap-2">{art.tags.map((t) => <span key={t} className="rounded-full bg-brand-soft px-3 py-1 text-xs font-semibold text-brand">#{t}</span>)}</div>}
           <p className="mt-4 text-sm text-muted">Uploaded {date(art.createdAt)}</p>
 
           <div className="mt-8 flex flex-wrap gap-3">
@@ -75,6 +77,7 @@ export default function Details() {
           {!user && <p className="mt-3 text-sm text-muted">You'll need to <Link href={`/login?next=/artworks/${id}`} className="text-brand font-semibold">log in</Link> to buy.</p>}
         </div>
       </div>
+      <Similar artworkId={id} />
       <Comments artworkId={id} />
     </div>
   );
