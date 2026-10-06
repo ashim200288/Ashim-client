@@ -3,6 +3,7 @@ import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import ArtCard from "@/components/ArtCard";
+import AiSearch from "@/components/AiSearch";
 import { CardSkeleton, Empty } from "@/components/ui";
 import { api, CATEGORIES } from "@/lib/api";
 
@@ -12,6 +13,7 @@ function Browse() {
   const [page, setPage] = useState(1);
   const [data, setData] = useState(null);
   const [term, setTerm] = useState("");
+  const [ai, setAi] = useState(null); // AI search results replace the normal grid while set
 
   useEffect(() => { const t = setTimeout(() => { setF((x) => ({ ...x, search: term })); setPage(1); }, 350); return () => clearTimeout(t); }, [term]);
 
@@ -27,6 +29,17 @@ function Browse() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">
       <h1 className="text-4xl font-bold">Browse artworks</h1>
+      <AiSearch active={!!ai} onResults={setAi} onClear={() => setAi(null)} />
+      {ai && (
+        <div className="mt-6">
+          <h2 className="text-xl font-bold">{ai.label}</h2>
+          {ai.notice && <p className="mt-2 text-sm rounded-lg bg-brand-soft text-brand px-3 py-2">{ai.notice}</p>}
+          {ai.items.length === 0 ? <div className="mt-4"><Empty title="Nothing similar found yet" hint="Try different words, or clear the AI search to browse everything." /></div> : (
+            <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">{ai.items.map((a) => <ArtCard key={a._id} art={a} score={a.score} />)}</div>
+          )}
+        </div>
+      )}
+      <div className={ai ? "hidden" : ""}>
       <div className="card p-4 mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
         <input className="input lg:col-span-2" placeholder="Search by title or artist" value={term} onChange={(e) => setTerm(e.target.value)} aria-label="Search" />
         <select className="input" value={f.category} onChange={set("category")} aria-label="Category">
@@ -53,6 +66,7 @@ function Browse() {
           <button className="btn btn-ghost" disabled={page === data.pages} onClick={() => setPage(page + 1)}>Next</button>
         </nav>
       )}
+      </div>
     </div>
   );
 }
