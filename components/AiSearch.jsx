@@ -29,12 +29,14 @@ export default function AiSearch({ onResults, onClear, active }) {
     <form onSubmit={text} className="card p-4 mt-6 border-brand/40">
       <p className="flex items-center gap-2 text-sm font-semibold text-brand"><Sparkles size={16} /> AI search: describe a feeling, a place or a colour</p>
       <div className="mt-3 flex flex-col sm:flex-row gap-2">
+
         <input className="input" value={q} onChange={(e) => setQ(e.target.value)} placeholder='e.g. "calm blue abstract for a bedroom"' aria-label="Describe the art you want" />
         <button className="btn btn-primary shrink-0" disabled={busy}>{busy ? "Searching…" : "Search"}</button>
         <label className={`btn btn-ghost shrink-0 ${busy ? "opacity-50 pointer-events-none" : ""}`}>
           <ImageUp size={16} /> By image
           <input type="file" accept="image/png,image/jpeg" className="sr-only" onChange={image} />
         </label>
+        
         {active && <button type="button" onClick={() => { setQ(""); onClear(); }} className="btn btn-ghost shrink-0"><X size={16} /> Clear</button>}
       </div>
     </form>
