@@ -37,3 +37,4 @@ npm run dev
 
 ## NPM packages
 next, react, react-dom, tailwindcss, @tailwindcss/postcss, framer-motion, recharts, react-hot-toast, next-themes, lucide-react, @react-oauth/google
+# Ashim-client
